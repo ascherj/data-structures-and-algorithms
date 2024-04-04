@@ -1,9 +1,14 @@
+from data_structures.list_node import ListNode
+
 class Queue:
     def __init__(self) -> None:
         """
         Initializes an empty Queue.
         """
-        self.data = []
+        self.head = None
+        self.tail = None
+        self.size = 0
+
 
     def enqueue(self, data: any) -> None:
         """
@@ -12,7 +17,14 @@ class Queue:
         Args:
             data (any): The data to enqueue into the queue.
         """
-        self.data.append(data)
+        node = ListNode(data)
+        if self.tail:
+            self.tail.next = node
+            self.tail = node
+        else:
+            self.head = node
+            self.tail = node
+        self.size += 1
 
     def dequeue(self) -> any:
         """
@@ -24,8 +36,13 @@ class Queue:
         Raises:
             IndexError: If the queue is empty.
         """
-        if self.data:
-            return self.data.pop(0)
+        if self.head:
+            data = self.head.val
+            self.head = self.head.next
+            if not self.head:
+                self.tail = None
+            self.size -= 1
+            return data
         raise IndexError("Queue is empty")
 
     def peek(self) -> any:
@@ -38,8 +55,8 @@ class Queue:
         Raises:
             IndexError: If the queue is empty.
         """
-        if self.data:
-            return self.data[0]
+        if self.head:
+            return self.head.val
         raise IndexError("Queue is empty")
 
     def is_empty(self) -> bool:
@@ -49,13 +66,15 @@ class Queue:
         Returns:
             bool: True if the queue is empty, False otherwise.
         """
-        return not bool(self.data)
+        return not bool(self.size)
 
     def __str__(self) -> str:
         """
         Returns a string representation of the queue.
-
-        Returns:
-            str: A string representation of the queue.
         """
-        return str(self.data)
+        current = self.head
+        items = []
+        while current:
+            items.append(current.val)
+            current = current.next
+        return str(items)

@@ -7,7 +7,9 @@ class TestQueue(unittest.TestCase):
         Test that a Queue object can be instantiated properly.
         """
         queue = Queue()
-        self.assertEqual(queue.data, [])
+        self.assertIsNone(queue.head)
+        self.assertIsNone(queue.tail)
+        self.assertEqual(queue.size, 0)
         self.assertIsInstance(queue, Queue)
 
     def test_enqueue(self):
@@ -16,7 +18,9 @@ class TestQueue(unittest.TestCase):
         """
         queue = Queue()
         queue.enqueue(1)
-        self.assertEqual(queue.data, [1])
+        self.assertEqual(queue.size, 1)
+        self.assertEqual(queue.head.val, 1)
+        self.assertEqual(queue.tail.val, 1)
 
     def test_dequeue(self):
         """
@@ -25,6 +29,21 @@ class TestQueue(unittest.TestCase):
         queue = Queue()
         queue.enqueue(1)
         self.assertEqual(queue.dequeue(), 1)
+        self.assertEqual(queue.head, None)
+        self.assertEqual(queue.tail, None)
+        self.assertEqual(queue.size, 0)
+
+    def test_dequeue_multiple(self):
+        """
+        Test that an item can be dequeued from a queue with multiple items.
+        """
+        queue = Queue()
+        queue.enqueue(1)
+        queue.enqueue(2)
+        self.assertEqual(queue.dequeue(), 1)
+        self.assertEqual(queue.head.val, 2)
+        self.assertEqual(queue.tail.val, 2)
+        self.assertEqual(queue.size, 1)
 
     def test_dequeue_empty(self):
         """
@@ -41,6 +60,7 @@ class TestQueue(unittest.TestCase):
         queue = Queue()
         queue.enqueue(1)
         self.assertEqual(queue.peek(), 1)
+        self.assertEqual(queue.size, 1)
 
     def test_peek_empty(self):
         """
@@ -67,8 +87,9 @@ class TestQueue(unittest.TestCase):
 
     def test_str(self):
         """
-        Test that the string representation of the queue is returned.
+        Test that the string representation of the queue is correct.
         """
         queue = Queue()
         queue.enqueue(1)
-        self.assertEqual(str(queue), "[1]")
+        queue.enqueue(2)
+        self.assertEqual(str(queue), "[1, 2]")
