@@ -28,10 +28,11 @@ class TestStack(unittest.TestCase):
 
     def test_pop_empty(self):
         """
-        Test that None is returned when trying to pop from an empty stack.
+        Test that an IndexError is raised when trying to pop off an empty stack.
         """
         stack = Stack()
-        self.assertIsNone(stack.pop())
+        with self.assertRaises(IndexError):
+            stack.pop()
 
     def test_peek(self):
         """
@@ -43,10 +44,11 @@ class TestStack(unittest.TestCase):
 
     def test_peek_empty(self):
         """
-        Test that None is returned when trying to peek at the top of an empty stack.
+        Test that an IndexError is raised when trying to peek at the top of an empty stack.
         """
         stack = Stack()
-        self.assertIsNone(stack.peek())
+        with self.assertRaises(IndexError):
+            stack.peek()
 
     def test_is_empty(self):
         """

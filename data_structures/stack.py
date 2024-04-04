@@ -20,10 +20,13 @@ class Stack:
 
         Returns:
             any: The data popped off the stack.
+
+        Raises:
+            IndexError: If the stack is empty.
         """
         if self.data:
             return self.data.pop()
-        return None
+        raise IndexError("Stack is empty")
 
     def peek(self) -> any:
         """
@@ -31,10 +34,13 @@ class Stack:
 
         Returns:
             any: The data at the top of the stack.
+
+        Raises:
+            IndexError: If the stack is empty.
         """
         if self.data:
             return self.data[-1]
-        return None
+        raise IndexError("Stack is empty")
 
     def is_empty(self) -> bool:
         """
